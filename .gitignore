@@ -1,0 +1,12 @@
+__pycache__
+.pytest_cache
+.ipynb_checkpoints
+.DS_Store
+metastore_db
+derby.logs
+
+airflow/logs
+airflow/db
+airflow/spark-cluster.pem
+airflow/standalone_admin_password.txt
+airflow/airflow-webserver.pid
