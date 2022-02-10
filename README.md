@@ -16,7 +16,7 @@ The goal of the target schema is to provide government agencies with
 an easy to use database schema for doing analysis on which people and how many are coming to
 the US, when are they coming, from which country, by which mode of travel and to which destinations and what is their purpose.
 
-Please read [details in this jupyter notebook] (file://./immigration.ipynb)
+Please read [details in this jupyter notebook](file://./immigration.ipynb)
 
 ## Running the data pipeline
 
