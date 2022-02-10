@@ -34,7 +34,7 @@ default_args = {
 with DAG(
     'immigration_pipeline',
     default_args=default_args,
-    description='Create Immigration Data analytics schema',
+    description='Create immigration analytics schema from i94 immigration data, us cities and airports',
     schedule_interval=timedelta(days=1),
     start_date=datetime(2021, 1, 1),
     catchup=False,
@@ -45,66 +45,80 @@ with DAG(
         task_id='extract_clean_immigration',
         script_file="extract_clean_immigration.py"
     )
+    extract_clean_immigration.doc_md = dedent("""
+    Extract and clean the I94 dataset and store the results in s3.
+    """)
 
     extract_clean_cities = SparkOperator(
         task_id='extract_clean_cities',
         script_file="extract_clean_cities.py"
     )
+    extract_clean_cities.doc_md = dedent("""
+    Extract and clean the us cities dataset and store the results in s3.
+    """)
 
     extract_clean_airports = SparkOperator(
         task_id='extract_clean_airports',
         script_file="extract_clean_airports.py"
     )
+    extract_clean_airports.doc_md = dedent("""
+    Extract and clean the airports dataset and store the results in s3.
+    """)
 
     sync_after_extract = DummyOperator(
         task_id='sync_after_extract'
     )
+    sync_after_extract.doc_md = dedent("""
+    Synchronize the extract tasks
+    """)
 
     create_dim_person = SparkOperator(
         task_id='create_dim_person',
         script_file="create_dim_person.py"
     )
+    create_dim_person.doc_md = dedent("""
+    Create the person dimension table from intermediary files and store results in s3.
+    """)
 
     create_dim_destination = SparkOperator(
         task_id='create_dim_destination',
         script_file="create_dim_destination.py"
     )
+    create_dim_destination.doc_md = dedent("""
+    Create the destination dimension table from intermediary files and store results in s3.
+    """)
 
     create_dim_flight = SparkOperator(
         task_id='create_dim_flight',
         script_file="create_dim_flight.py"
     )
+    create_dim_flight.doc_md = dedent("""
+    Create the flight dimension table from intermediary files and store results in s3.
+    """)
 
     create_dim_airport = SparkOperator(
         task_id='create_dim_airport',
         script_file="create_dim_airport.py"
     )
+    create_dim_airport.doc_md = dedent("""
+    Create the airport dimension table from intermediary files and store results in s3.
+    """)
 
     create_fact_immigration = SparkOperator(
         task_id='create_fact_immigration',
         script_file="create_fact_immigration.py"
     )
+    create_fact_immigration.doc_md = dedent("""
+    Create the immigration fact table from intermediary files and store results in s3.
+    """)
 
     data_quality_check = SparkOperator(
         task_id='data_quality_check',
         script_file="data_quality_check.py"
     )
-
-    # extract_and_transform_raw_files.doc_md = dedent(
-    #     """\
-    # #### Task Documentation
-    # You can document your task using the attributes `doc_md` (markdown),
-    # `doc` (plain text), `doc_rst`, `doc_json`, `doc_yaml` which gets
-    # rendered in the UI's Task Instance Details page.
-    # ![img](http://montcs.bloomu.edu/~bobmon/Semesters/2012-01/491/import%20soul.png)
-
-    # """
-    # )
-
-    # dag.doc_md = __doc__  # providing that you have a docstring at the beginning of the DAG
-    # dag.doc_md = """
-    # This is a documentation placed anywhere
-    # """  # otherwise, type it like this
+    data_quality_check.doc_md = dedent("""
+    Load the final data sets and run some data checks on them.
+    """)
 
     [extract_clean_cities, extract_clean_immigration,
         extract_clean_airports] >> sync_after_extract

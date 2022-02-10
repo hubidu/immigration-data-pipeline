@@ -8,11 +8,16 @@ from airflow.exceptions import AirflowException
 
 class SparkOperator(BaseOperator):
     """
-    Airflow operator which runs spark jobs over SSH.
+    Airflow operator which runs spark jobs via SSH.
 
-    Params:
-    - ssh_conn_id (string): airflow ssh connection id to spark cluster
-    - script_file (string): name of script file to run on the spark cluster
+    The operator copies all python files located in the spark subdirectory on the master
+    node of the spark cluster.
+    Then it uses spark-submit to run the specified job.
+
+    Parameters:
+
+    - ssh_conn_id (string): name of airflow ssh connection id to spark cluster
+    - script_file (string): name of script file to run on the spark cluster. The script file must be located in the spark subdirectory.
     """
 
     def __init__(self, ssh_conn_id="ssh_emr", script_file=None, **kwargs) -> None:
