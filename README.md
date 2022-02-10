@@ -1,4 +1,4 @@
-# Data pipeline US immigration and socio-demographic data
+# Data pipeline US immigration with sociodemographic data
 
 This is my take on the [Udacity Data Engineering](https://www.udacity.com/course/data-engineer-nanodegree--nd027) Capstone Project.
 The project uses the following data sets:
@@ -16,7 +16,7 @@ The goal of the target schema is to provide government agencies with
 an easy to use database schema for doing analysis on which people and how many are coming to
 the US, when are they coming, from which country, by which mode of travel and to which destinations and what is their purpose.
 
-Please read [details in this jupyter notebook](file://./immigration.ipynb)
+Please read [details in this jupyter notebook](./immigration.ipynb)
 
 ## Running the data pipeline
 
@@ -48,7 +48,7 @@ Start pyspark in a docker container from the root directory.
 docker run -p 8888:8888 -v $(pwd):/home/jovyan/data jupyter/pyspark-notebook
 ```
 
-Then open (file://./immigration.ipynb) in jupyter lab.
+Then open [this jupyter notebook](./immigration.ipynb) in jupyter lab.
 
 ## Run data pipelines in airflow
 
